@@ -5,17 +5,14 @@ import React from 'react'
 import Link from 'next/link'
 import LoginForm from './LoginForm'
 
-import { createBrowserClient } from '@supabase/ssr'
+// Zustand user state
+import { useUser } from '@/lib/store/user'
+import Profile from './Profile'
 
 type Props = {}
 
 const Navbar = (props: Props) => {
-	const supabase = createBrowserClient(
-		process.env.NEXT_PUBLIC_SUPABASE_URL!,
-		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-	)
-
-    
+	const user = useUser((state) => state.user)
 
 	return (
 		<nav className='flex items-center justify-between'>
@@ -23,10 +20,10 @@ const Navbar = (props: Props) => {
 				<Link href='/' className='text-2xl font-bold'>
 					ScribeQuantum
 				</Link>
-				<div className='h-1 w-0 group-hover:w-full transition-all duration-500 bg-green-500 ' />
+				<div className='h-1 w-0 group-hover:w-full transition-all duration-500 bg-blue-500 ' />
 			</div>
 
-			<LoginForm />
+			{user ? <Profile /> : <LoginForm />}
 		</nav>
 	)
 }

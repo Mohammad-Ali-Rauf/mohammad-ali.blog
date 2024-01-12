@@ -1,11 +1,29 @@
 import React from 'react'
 import { Button } from './ui/button'
+import { createBrowserClient } from '@supabase/ssr'
+import { usePathname } from 'next/navigation'
 
 type Props = {}
 
 const LoginForm = (props: Props) => {
+
+	const pathname = usePathname()
+
+	const supabase = createBrowserClient(
+		process.env.NEXT_PUBLIC_SUPABASE_URL!,
+		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+	)
+
+	const handleLogin = () => {
+		supabase.auth.signInWithOAuth({
+			provider: 'github',
+			options: { redirectTo: `${location.origin}/auth/callback?next=${pathname}` },
+		})
+	}
+
+
 	return (
-		<Button className='flex items-center gap-2' variant='outline'>
+		<Button className='flex items-center gap-2' variant='outline' onClick={handleLogin}>
 			<svg
 				className='w-[18px] h-[18px] text-gray-800 dark:text-white'
 				aria-hidden='true'
