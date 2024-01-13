@@ -1,9 +1,16 @@
 'use server'
 
+// Supabase Configuration
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { Database } from '../types/supabase'
+
+// Types
 import { BlogFormSchemaType } from '@/app/dashboard/schemas'
+import { revalidatePath } from 'next/cache'
+
+// Constants
+const DASHBOARD = '/dashboard'
 
 const cookieStore = cookies()
 const supabase = createServerClient<Database>(
@@ -35,4 +42,27 @@ export async function createBlog(data: BlogFormSchemaType) {
 			.insert({ blog_id: resultBlog.data.id!, content: data.content })
 		return JSON.stringify(result)
 	}
+}
+
+export async function readBlog() {
+	return supabase
+		.from('blog')
+		.select('*')
+		.order('created_at', { ascending: true })
+}
+
+export async function deleteBlogById(blogId: string) {
+	const result = await supabase.from('blog').delete().eq('id', blogId)
+
+	revalidatePath(DASHBOARD)
+
+	return JSON.stringify(result)
+}
+
+export async function updateBlogById(blogId: string, data: BlogFormSchemaType) {
+	const result = await supabase.from('blog').update(data).eq('id', blogId)
+
+	revalidatePath(DASHBOARD)
+
+	return JSON.stringify(result)
 }
