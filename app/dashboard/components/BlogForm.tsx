@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useTransition } from 'react'
 import Image from 'next/image'
 
 // Configurations
@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
-import { SaveIcon } from 'lucide-react'
+import { Loader2, SaveIcon } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import MarkdownPreview from '@/components/markdown/MarkdownPreview'
 
@@ -35,10 +35,11 @@ import { z } from 'zod'
 
 // Props Types
 interface Props {
-    onHandleSubmit: (data: BlogFormSchemaType) => void
+	onHandleSubmit: (data: BlogFormSchemaType) => void
 }
 
 const BlogForm = ({ onHandleSubmit }: Props) => {
+	const [isPending, startTransition] = useTransition()
 	const [isPreview, setIsPreview] = useState(false)
 
 	const form = useForm<z.infer<typeof BlogFormSchema>>({
@@ -54,7 +55,9 @@ const BlogForm = ({ onHandleSubmit }: Props) => {
 	})
 
 	const onSubmit = (data: BlogFormSchemaType) => {
-		onHandleSubmit(data)
+		startTransition(() => {
+			onHandleSubmit(data)
+		})
 	}
 
 	return (
@@ -125,10 +128,18 @@ const BlogForm = ({ onHandleSubmit }: Props) => {
 						/>
 					</div>
 					<Button
-						className='flex items-center gap-2'
+						className={cn('flex items-center gap-2', {
+							'bg-blue-800 hover:bg-blue-800 cursor-default': isPending,
+						})}
 						disabled={!form.formState.isValid}
 					>
-						<SaveIcon className='w-5 h-5' />
+						{isPending ? (
+							<Loader2
+								className={cn('w-5 h-5', { 'animate-spin': isPending })}
+							/>
+						) : (
+							<SaveIcon className='w-5 h-5' />
+						)}
 						Save
 					</Button>
 				</div>

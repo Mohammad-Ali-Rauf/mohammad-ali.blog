@@ -9,10 +9,15 @@ import { BlogFormSchemaType } from '../../schemas'
 
 // Functions/Actions
 import { createBlog } from '@/lib/actions/blog'
-import { useToast } from '@/components/ui/use-toast'
+import { toast } from '@/components/ui/use-toast'
+
+// Routing
+import { useRouter } from 'next/navigation'
 
 const Page = () => {
-	const { toast } = useToast()
+
+	const router = useRouter()
+
 	const handleCreate = async (data: BlogFormSchemaType) => {
 		const result = await createBlog(data)
 		const { error } = JSON.parse(result)
@@ -36,6 +41,7 @@ const Page = () => {
 				duration: 1500,
 				variant: 'success',
 			})
+			router.push('/dashboard')
 		}
 	}
 
