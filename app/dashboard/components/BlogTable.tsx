@@ -49,11 +49,11 @@ const BlogTable = async (props: Props) => {
 				</div>
 				{blogs?.map((blog, i) => {
 					const updatePremium = updateBlogById.bind(null, blog.id, {
-						is_premium: blog.is_premium,
+						is_premium: !blog.is_premium,
 					} as BlogFormSchemaType)
 
 					const updatePublish = updateBlogById.bind(null, blog.id, {
-						is_published: blog.is_published,
+						is_published: !blog.is_published,
 					} as BlogFormSchemaType)
 
 					return (
@@ -61,12 +61,12 @@ const BlogTable = async (props: Props) => {
 							<h1 className='col-span-2'>{blog.title}</h1>
 							<SwitchForm
 								name='premium'
-								// onToggle={}
+								onToggle={updatePremium}
 								checked={blog.is_premium}
 							/>
 							<SwitchForm
 								name='publish'
-								// onToggle={}
+								onToggle={updatePublish}
 								checked={blog.is_published}
 							/>
 							<Actions id={blog.id} />

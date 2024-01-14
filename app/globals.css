@@ -20,7 +20,7 @@
 		--accent-foreground: 222.2 47.4% 11.2%;
 		--destructive: 348 92.2% 59.6%;
 		--destructive-foreground: @apply text-white;
-		--success: 90 50% 50%;
+		--success: 145 55% 43%;
 		--success-foreground: @apply text-white;
 		--border: 214.3 31.8% 91.4%;
 		--input: 214.3 31.8% 91.4%;
@@ -45,7 +45,7 @@
 		--accent-foreground: 210 40% 98%;
 		--destructive: 348 92.2% 59.6%;
 		--destructive-foreground: @apply text-white;
-		--success: 90 50% 50%;
+		--success: 145 55% 43%;
 		--success-foreground: @apply text-white;
 		--border: 217.2 32.6% 17.5%;
 		--input: 217.2 32.6% 17.5%;

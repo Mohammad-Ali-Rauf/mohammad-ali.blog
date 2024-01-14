@@ -9,7 +9,7 @@ import { toast } from '@/components/ui/use-toast'
 interface Props {
 	checked: boolean
 	onToggle: () => Promise<string>
-    name: string
+	name: string
 }
 
 const SwitchForm = ({ checked, name, onToggle }: Props) => {
@@ -30,7 +30,7 @@ const SwitchForm = ({ checked, name, onToggle }: Props) => {
 			})
 		} else {
 			toast({
-				title: `Successfully updated ${name}. 🎉`,
+				title: `Successfully Updated ${name}.`,
 				variant: 'success',
 				duration: 1500,
 			})
