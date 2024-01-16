@@ -24,32 +24,19 @@ import { createBrowserClient } from '@supabase/ssr'
 // Routing
 import { useRouter } from 'next/navigation'
 
-type Props = {}
+export const isAdmin = (user: any) => user?.role === 'admin' ? true : false
 
-const Profile = (props: Props) => {
+const Profile = () => {
 	const user = useUser((state) => state.user)
 	const setUser = useUser((state) => state.setUser)
 	const { push } = useRouter()
 
-	const isAdmin = user?.user_metadata?.role === 'admin'
+	const isAdminValue = isAdmin(user)
 
 	const supabase = createBrowserClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	)
-
-	supabase
-		.channel('role_change')
-		.on(
-			'postgres_changes',
-			{ event: 'UPDATE', schema: 'public', table: 'users' },
-			(payload) => {
-				console.log('Change received!', payload)
-			}
-		)
-		.subscribe()
-
-	useEffect(() => {}, [supabase])
 
 	const handleLogout = async () => {
 		supabase.auth.signOut()
@@ -74,7 +61,7 @@ const Profile = (props: Props) => {
 					<p>{user?.user_metadata?.user_name}</p>
 					<p className='text-gray-500'>{user?.user_metadata?.email}</p>
 				</div>
-				{isAdmin && (
+				{isAdminValue && (
 					<Link href='/dashboard' className='block'>
 						<Button
 							aria-label='dashboard'

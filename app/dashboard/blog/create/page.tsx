@@ -14,9 +14,14 @@ import { toast } from '@/components/ui/use-toast'
 // Routing
 import { useRouter } from 'next/navigation'
 
+// Zustand
+import { isAdmin } from '@/components/Profile'
+import { useUser } from '@/lib/store/user'
+
 const Page = () => {
 
 	const router = useRouter()
+	const user = useUser((state) => state.user)
 
 	const handleCreate = async (data: BlogFormSchemaType) => {
 		const result = await createBlog(data)
@@ -29,7 +34,14 @@ const Page = () => {
 				duration: 1500,
 				variant: 'destructive',
 			})
-		} else {
+		} else if (!isAdmin(user)) {
+			toast({
+				title: 'You are not an Admin.',
+				duration: 1500,
+				variant: 'destructive',
+			})
+		}
+		 else {
 			toast({
 				title: 'Successfully created the blog.',
 				description: (
