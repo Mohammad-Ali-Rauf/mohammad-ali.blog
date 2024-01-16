@@ -40,20 +40,15 @@ const Profile = (props: Props) => {
 
 	useEffect(() => {
 		const change = supabase
-			.channel('role_changes')
-			.on(
-				'postgres_changes',
-				{
-					event: 'UPDATE',
-					schema: 'public',
-					table: 'users',
-				},
-				async (payload) => {
-					if (payload.new.role === user?.user_metadata.role) {
-						await supabase.auth.refreshSession()
-					}
+			.from('users')
+			// @ts-ignore
+			.on('UPDATE', async (payload) => {
+				// Check if the role is updated for the current user
+				if (payload.new.role === user?.role) {
+					// Log out the user to force them to re-login with the updated role
+					await supabase.auth.signOut()
 				}
-			)
+			})
 			.subscribe()
 
 		return () => {
