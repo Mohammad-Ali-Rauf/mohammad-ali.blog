@@ -1,9 +1,9 @@
 import React from 'react'
+import Link from 'next/link'
 
 // Components
 import { Button } from '@/components/ui/button'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
-import { Switch } from '@/components/ui/switch'
 
 // Icons
 import { EyeOpenIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons'
@@ -27,10 +27,12 @@ const Actions = ({ id }: ActionsProps) => {
 				<EyeOpenIcon />
 				View
 			</Button>
-			<Button variant='secondary' className='flex items-center gap-2'>
-				<Pencil1Icon />
-				Edit
-			</Button>
+			<Link href={`/dashboard/blog/edit/${id}`}>
+				<Button variant='secondary' className='flex items-center gap-2'>
+					<Pencil1Icon />
+					Edit
+				</Button>
+			</Link>
 			<DeleteAlert blogId={id} />
 		</div>
 	)

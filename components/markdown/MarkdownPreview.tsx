@@ -18,7 +18,7 @@ const MarkdownPreview = ({ content, className }: Props) => {
 	return (
 		<Markdown
 			rehypePlugins={[rehypeHighlight]}
-			className={cn('dark:text-gray-200 space-y-8', className)}
+			className={cn('dark:text-gray-200 space-y-8 ml-10', className)}
 			components={{
 				h1: ({ node, ...props }) => {
 					return <h1 {...props} className='text-3xl font-bold' />

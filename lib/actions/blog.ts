@@ -12,14 +12,14 @@ import { revalidatePath } from 'next/cache'
 // Constants
 const DASHBOARD = '/dashboard'
 
-const cookieStore = cookies()
 const supabase = createServerClient<Database>(
 	process.env.NEXT_PUBLIC_SUPABASE_URL!,
 	process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 	{
 		cookies: {
-			get(name: string) {
-				return cookieStore.get(name)?.value
+			async get(name: string) {
+				'use server'
+				return await cookies().get(name)?.value
 			},
 		},
 	}
@@ -49,6 +49,14 @@ export async function readBlog() {
 		.from('blog')
 		.select('*')
 		.order('created_at', { ascending: true })
+}
+
+export async function readBlogContentById(blogId: string) {
+	return supabase
+		.from('blog')
+		.select('*,blog_content(*)')
+		.eq('id', blogId)
+		.single()
 }
 
 export async function deleteBlogById(blogId: string) {
