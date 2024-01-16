@@ -13,16 +13,18 @@ import { toast } from '@/components/ui/use-toast'
 
 // Routing
 import { useRouter } from 'next/navigation'
+import useAdminStore from '@/lib/store/isAdmin'
 
 const Page = () => {
 
 	const router = useRouter()
+	const isAdmin = useAdminStore((state) => state.isAdmin)
 
 	const handleCreate = async (data: BlogFormSchemaType) => {
 		const result = await createBlog(data)
-		const { error } = JSON.parse(result)
+		const { error} = JSON.parse(result)
 
-		if (error?.message) {
+		if (error?.message || isAdmin === false) {
 			toast({
 				title: 'An error occurred while creating the blog.',
 				description: error.message,

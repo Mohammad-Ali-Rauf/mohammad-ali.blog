@@ -10,7 +10,6 @@ import { BlogFormSchemaType } from '@/app/dashboard/schemas'
 
 // Routing
 import { revalidatePath } from 'next/cache'
-import { NextResponse } from 'next/server'
 
 // Constants
 const DASHBOARD = '/dashboard'

@@ -23,12 +23,14 @@ import { createBrowserClient } from '@supabase/ssr'
 
 // Routing
 import { useRouter } from 'next/navigation'
+import useAdminStore from '@/lib/store/isAdmin'
 
 type Props = {}
 
 const Profile = (props: Props) => {
 	const user = useUser((state) => state.user)
 	const setUser = useUser((state) => state.setUser)
+	const isAdmin = useAdminStore((state) => state.isAdmin)
 	const { push } = useRouter()
 
 	const supabase = createBrowserClient(
@@ -36,25 +38,11 @@ const Profile = (props: Props) => {
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	)
 
-	useEffect(() => {
-		const change = supabase.channel('realtime:public:users').on('postgres_changes', {
-			event: 'UPDATE',
-			schema: 'public',
-      		table: 'users',
-		}, async (payload) => {
-			if (payload.new.role === user?.role) {
-				await supabase.auth.signOut()
-			}
-		}).subscribe()
-	}, [supabase, user])
-
 	const handleLogout = async () => {
 		supabase.auth.signOut()
 		setUser(undefined)
 		push('/')
 	}
-
-	const isAdmin = user?.user_metadata?.role === 'admin'
 
 	return (
 		<Popover>
