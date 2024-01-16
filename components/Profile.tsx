@@ -39,18 +39,22 @@ const Profile = (props: Props) => {
 	)
 
 	useEffect(() => {
-		supabase.channel('realtime:public:users').on(
-			'postgres_changes',
-			{
-				type: 'UPDATE',
-				schema: 'public',
-				table: 'users',
-			},
-			async (payload: any) => {
-				console.log(payload)
-			}
-		)
-	}, [])
+		supabase
+			.channel('realtime:public:users')
+			.on(
+				// @ts-ignore
+				'postgres_changes',
+				{
+					type: 'UPDATE',
+					schema: 'public',
+					table: 'users',
+				},
+				async (payload: any) => {
+					console.log(payload)
+				}
+			)
+			.subscribe()
+	}, [supabase])
 
 	const handleLogout = async () => {
 		supabase.auth.signOut()
