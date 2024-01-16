@@ -4,17 +4,17 @@ import Link from 'next/link'
 // Components
 import { Button } from '@/components/ui/button'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
+import DeleteAlert from './DeleteAlert'
+import SwitchForm from './SwitchForm'
 
 // Icons
 import { EyeOpenIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons'
 
 // Functions/Actions - Database CRUD not these actions
-import { readBlog, updateBlogById } from '@/lib/actions/blog'
-import DeleteAlert from './DeleteAlert'
-import SwitchForm from './SwitchForm'
-import { BlogFormSchemaType } from '../schemas'
+import { readBlog, updateBlogByDashboard } from '@/lib/actions/blog'
 
-type Props = {}
+// Types
+import { BlogFormSchemaType } from '../schemas'
 
 interface ActionsProps {
 	id: string
@@ -38,7 +38,7 @@ const Actions = ({ id }: ActionsProps) => {
 	)
 }
 
-const BlogTable = async (props: Props) => {
+const BlogTable = async () => {
 	const { data: blogs } = await readBlog()
 
 	return (
@@ -50,11 +50,11 @@ const BlogTable = async (props: Props) => {
 					<h1>Publish</h1>
 				</div>
 				{blogs?.map((blog, i) => {
-					const updatePremium = updateBlogById.bind(null, blog.id, {
+					const updatePremium = updateBlogByDashboard.bind(null, blog.id, {
 						is_premium: !blog.is_premium,
 					} as BlogFormSchemaType)
 
-					const updatePublish = updateBlogById.bind(null, blog.id, {
+					const updatePublish = updateBlogByDashboard.bind(null, blog.id, {
 						is_published: !blog.is_published,
 					} as BlogFormSchemaType)
 

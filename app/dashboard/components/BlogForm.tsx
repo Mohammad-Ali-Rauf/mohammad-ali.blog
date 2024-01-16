@@ -33,12 +33,16 @@ import {
 } from '@radix-ui/react-icons'
 import { z } from 'zod'
 
+// External Types
+import { IBlogDetail } from '@/lib/types'
+
 // Props Types
 interface Props {
 	onHandleSubmit: (data: BlogFormSchemaType) => void
+	blog?: IBlogDetail
 }
 
-const BlogForm = ({ onHandleSubmit }: Props) => {
+const BlogForm = ({ onHandleSubmit, blog }: Props) => {
 	const [isPending, startTransition] = useTransition()
 	const [isPreview, setIsPreview] = useState(false)
 
@@ -46,11 +50,11 @@ const BlogForm = ({ onHandleSubmit }: Props) => {
 		mode: 'all',
 		resolver: zodResolver(BlogFormSchema),
 		defaultValues: {
-			title: '',
-			image_url: '',
-			content: '',
-			is_published: true,
-			is_premium: false,
+			title: blog?.title || '',
+			image_url: blog?.image_url || '',
+			content: blog?.blog_content?.content || '',
+			is_published: blog?.is_published || true,
+			is_premium: blog?.is_premium || false,
 		},
 	})
 

@@ -67,10 +67,34 @@ export async function deleteBlogById(blogId: string) {
 	return JSON.stringify(result)
 }
 
-export async function updateBlogById(blogId: string, data: BlogFormSchemaType) {
+export async function updateBlogByDashboard(
+	blogId: string,
+	data: BlogFormSchemaType
+) {
 	const result = await supabase.from('blog').update(data).eq('id', blogId)
 
 	revalidatePath(DASHBOARD)
 
 	return JSON.stringify(result)
+}
+
+export async function updateBlogByForm(
+	blogId: string,
+	data: BlogFormSchemaType
+) {
+	const { ['content']: excludedKey, ...blog } = data
+	const resultBlog = await supabase.from('blog').update(blog).eq('id', blogId)
+
+	if (resultBlog.error) {
+		return JSON.stringify(resultBlog.error)
+	} else {
+		const result = await supabase
+			.from('blog_content')
+			.update({ content: data.content })
+			.eq('blog_id', blogId)
+
+		revalidatePath(DASHBOARD)
+
+		return JSON.stringify(result)
+	}
 }
