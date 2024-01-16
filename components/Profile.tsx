@@ -41,10 +41,12 @@ const Profile = (props: Props) => {
 			event: 'UPDATE',
 			schema: 'public',
       		table: 'users',
-		}, () => {
-			supabase.auth.signOut()
+		}, async (payload) => {
+			if (payload.new.role === user?.role) {
+				await supabase.auth.signOut()
+			}
 		}).subscribe()
-	}, [supabase])
+	}, [supabase, user])
 
 	const handleLogout = async () => {
 		supabase.auth.signOut()
