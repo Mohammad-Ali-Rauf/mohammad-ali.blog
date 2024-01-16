@@ -39,18 +39,11 @@ const Profile = (props: Props) => {
 	)
 
 	supabase
-		.channel('role_change')
-		.on(
-			'postgres_changes',
-			{
-				event: 'UPDATE',
-				schema: 'public',
-				table: 'users',
-			},
-			(payload: any) => {
-				console.log(payload)
-			}
-		)
+		.from('users')
+		// @ts-ignore
+		.on('INSERT', (payload: any) => {
+			console.log(payload)
+		})
 		.subscribe()
 
 	useEffect(() => {}, [supabase])
