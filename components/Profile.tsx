@@ -38,24 +38,6 @@ const Profile = (props: Props) => {
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	)
 
-	useEffect(() => {
-		const change = supabase
-			.from('users')
-			// @ts-ignore
-			.on('UPDATE', async (payload) => {
-				// Check if the role is updated for the current user
-				if (payload.new.role === user?.role) {
-					// Log out the user to force them to re-login with the updated role
-					await supabase.auth.signOut()
-				}
-			})
-			.subscribe()
-
-		return () => {
-			change.unsubscribe()
-		}
-	}, [supabase, user])
-
 	const handleLogout = async () => {
 		supabase.auth.signOut()
 		setUser(undefined)
