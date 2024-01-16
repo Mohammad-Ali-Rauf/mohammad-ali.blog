@@ -1,10 +1,19 @@
+
+// Types
 import type { Metadata } from 'next'
+
+// Styles
 import { Inter } from 'next/font/google'
 import './globals.css'
+
+// Theming
 import { Providers } from '@/app/providers'
+
+// Components
 import Navbar from '@/components/Navbar'
 import SessionProvider from '@/components/session-provider'
 import { Toaster } from '@/components/ui/toaster'
+import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,6 +42,7 @@ const RootLayout: React.FC<Props> = ({ children }) => {
 				</Providers>
 				{/* @ts-ignore */}
 				<SessionProvider />
+				<Analytics />
 			</body>
 		</html>
 	)
