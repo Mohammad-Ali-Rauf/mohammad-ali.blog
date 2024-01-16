@@ -7,7 +7,7 @@ type Props = {}
 
 const Home = (props: Props) => {
   return (
-    <div><Button>Hello</Button></div>
+    <div><Button aria-label='hello'>Hello</Button></div>
   )
 }
 

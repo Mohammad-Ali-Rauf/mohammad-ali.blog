@@ -132,6 +132,7 @@ const BlogForm = ({ onHandleSubmit, blog }: Props) => {
 						/>
 					</div>
 					<Button
+						aria-label='save-blog'
 						className={cn('flex items-center gap-2', {
 							'bg-blue-800 hover:bg-blue-800 cursor-default': isPending,
 						})}

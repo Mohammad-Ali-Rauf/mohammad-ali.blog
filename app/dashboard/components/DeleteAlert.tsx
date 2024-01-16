@@ -66,7 +66,7 @@ const DeleteAlert = ({ blogId }: { blogId: string }) => {
 		<div>
 			<AlertDialog>
 				<AlertDialogTrigger asChild>
-					<Button variant='destructive' className='flex items-center gap-2'>
+					<Button aria-label='delete-blog' variant='destructive' className='flex items-center gap-2'>
 						<TrashIcon />
 						Delete
 					</Button>
@@ -83,6 +83,7 @@ const DeleteAlert = ({ blogId }: { blogId: string }) => {
 						<AlertDialogCancel>Cancel</AlertDialogCancel>
 						<form onSubmit={onSubmit}>
 							<Button
+							aria-label='delete-blog-confirmation'
 								className={cn(
 									'bg-rose-500 text-white hover:bg-rose-700 flex items-center gap-2',
 									{

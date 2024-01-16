@@ -51,6 +51,7 @@ const Profile = (props: Props) => {
 				{isAdmin && (
 					<Link href='/dashboard' className='block'>
 						<Button
+							aria-label='dashboard'
 							variant='ghost'
 							className='w-full flex items-center justify-between'
 						>
@@ -60,6 +61,7 @@ const Profile = (props: Props) => {
 					</Link>
 				)}
 				<Button
+					aria-label='logout'
 					onClick={handleLogout}
 					variant='ghost'
 					className='w-full flex items-center justify-between'

@@ -23,12 +23,12 @@ interface ActionsProps {
 const Actions = ({ id }: ActionsProps) => {
 	return (
 		<div className='flex items-center gap-3 flex-wrap'>
-			<Button variant='outline' className='flex items-center gap-2'>
+			<Button aria-label='view-blog' variant='outline' className='flex items-center gap-2'>
 				<EyeOpenIcon />
 				View
 			</Button>
 			<Link href={`/dashboard/blog/edit/${id}`}>
-				<Button variant='secondary' className='flex items-center gap-2'>
+				<Button aria-label='edit-blog' variant='secondary' className='flex items-center gap-2'>
 					<Pencil1Icon />
 					Edit
 				</Button>

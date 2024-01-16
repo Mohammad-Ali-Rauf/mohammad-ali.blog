@@ -23,7 +23,7 @@ const LoginForm = (props: Props) => {
 
 
 	return (
-		<Button className='flex items-center gap-2' variant='outline' onClick={handleLogin}>
+		<Button aria-label='login-button' className='flex items-center gap-2' variant='outline' onClick={handleLogin}>
 			<svg
 				className='w-[18px] h-[18px] text-gray-800 dark:text-white'
 				aria-hidden='true'

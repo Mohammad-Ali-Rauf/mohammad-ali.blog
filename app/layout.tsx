@@ -13,11 +13,11 @@ export const metadata: Metadata = {
 	description: 'Created, designed, and deployed by Mohammad Ali',
 }
 
-export default function RootLayout({
-	children,
-}: {
+interface Props {
 	children: React.ReactNode
-}) {
+}
+
+const RootLayout: React.FC<Props> = ({ children }) => {
 	return (
 		<html lang='en' suppressHydrationWarning>
 			<head>
@@ -31,8 +31,11 @@ export default function RootLayout({
 					</main>
 					<Toaster />
 				</Providers>
+				{/* @ts-ignore */}
 				<SessionProvider />
 			</body>
 		</html>
 	)
 }
+
+export default RootLayout

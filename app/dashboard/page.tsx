@@ -12,7 +12,7 @@ const Dashboard = (props: Props) => {
 			<div className='flex items-center justify-between'>
 				<h1 className='text-2xl font-bold'>Blogs</h1>
 				<Link href='/dashboard/blog/create'>
-					<Button variant='outline'>
+					<Button variant='outline' aria-label='create-blog'>
 						Create <PlusIcon />
 					</Button>
 				</Link>
