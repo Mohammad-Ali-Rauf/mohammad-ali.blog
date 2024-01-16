@@ -1,5 +1,7 @@
+'use client'
+
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 
 // Zustand
@@ -33,6 +35,16 @@ const Profile = (props: Props) => {
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	)
+
+	useEffect(() => {
+		const change = supabase.channel('realtime:public:users').on('postgres_changes', {
+			event: 'UPDATE',
+			schema: 'public',
+      		table: 'users',
+		}, () => {
+			supabase.auth.signOut()
+		}).subscribe()
+	}, [supabase])
 
 	const handleLogout = async () => {
 		supabase.auth.signOut()
