@@ -38,6 +38,20 @@ const Profile = (props: Props) => {
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	)
 
+	useEffect(() => {
+		supabase.channel('realtime:public:users').on(
+			'postgres_changes',
+			{
+				type: 'UPDATE',
+				schema: 'public',
+				table: 'users',
+			},
+			async (payload: any) => {
+				console.log(payload)
+			}
+		)
+	}, [])
+
 	const handleLogout = async () => {
 		supabase.auth.signOut()
 		setUser(undefined)
