@@ -223,6 +223,7 @@ const BlogForm = ({ onHandleSubmit, blog }: Props) => {
 										) : (
 											<div className='relative rounded-md border mt-5 h-80'>
 												<Image
+													loading='lazy'
 													src={form.getValues().image_url}
 													alt='preview'
 													fill

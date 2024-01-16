@@ -1,8 +1,13 @@
-import { Button } from '@/components/ui/button'
-import { PlusIcon } from '@radix-ui/react-icons'
+import React, { Suspense } from 'react'
 import Link from 'next/link'
-import React from 'react'
+
+// Icons
+import { PlusIcon } from '@radix-ui/react-icons'
+
+// Components
+import { Button } from '@/components/ui/button'
 import BlogTable from './components/BlogTable'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type Props = {}
 
@@ -17,7 +22,7 @@ const Dashboard = (props: Props) => {
 					</Button>
 				</Link>
 			</div>
-            <BlogTable />
+			<BlogTable />
 		</div>
 	)
 }

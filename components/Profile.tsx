@@ -1,33 +1,43 @@
-import { useUser } from '@/lib/store/user'
 import Image from 'next/image'
 import React from 'react'
+import Link from 'next/link'
 
+// Zustand
+import { useUser } from '@/lib/store/user'
+
+// Components
 import {
 	Popover,
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
-import Link from 'next/link'
 import { Button } from './ui/button'
 
 // Icons
 import { DashboardIcon, LockOpen1Icon } from '@radix-ui/react-icons'
+
+// Supabase
 import { createBrowserClient } from '@supabase/ssr'
+
+// Routing
+import { useRouter } from 'next/navigation'
 
 type Props = {}
 
 const Profile = (props: Props) => {
 	const user = useUser((state) => state.user)
 	const setUser = useUser((state) => state.setUser)
+	const { push } = useRouter()
 
 	const supabase = createBrowserClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	)
 
-	const handleLogout = () => {
+	const handleLogout = async () => {
 		supabase.auth.signOut()
 		setUser(undefined)
+		push('/')
 	}
 
 	const isAdmin = user?.user_metadata?.role === 'admin'
@@ -36,6 +46,7 @@ const Profile = (props: Props) => {
 		<Popover>
 			<PopoverTrigger>
 				<Image
+					loading='lazy'
 					src={user?.user_metadata?.avatar_url}
 					alt={user?.user_metadata?.user_name}
 					width={50}
