@@ -38,23 +38,22 @@ const Profile = (props: Props) => {
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	)
 
-	useEffect(() => {
-		supabase
-			.channel('realtime:public:users')
-			.on(
-				// @ts-ignore
-				'postgres_changes',
-				{
-					type: 'UPDATE',
-					schema: 'public',
-					table: 'users',
-				},
-				async (payload: any) => {
-					console.log(payload)
-				}
-			)
-			.subscribe()
-	}, [supabase])
+	supabase
+		.channel('role_change')
+		.on(
+			'postgres_changes',
+			{
+				event: 'UPDATE',
+				schema: 'public',
+				table: 'users',
+			},
+			(payload: any) => {
+				console.log(payload)
+			}
+		)
+		.subscribe()
+
+	useEffect(() => {}, [supabase])
 
 	const handleLogout = async () => {
 		supabase.auth.signOut()
