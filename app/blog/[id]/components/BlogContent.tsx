@@ -6,9 +6,9 @@ import React, { useEffect, useState } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import { Database } from '@/lib/types/supabase'
 
-// Types
-import { IBlog } from '@/lib/types'
+// Components
 import MarkdownPreview from '@/components/markdown/MarkdownPreview'
+import Loader from './Loader'
 
 interface Props {
 	blogId: string
@@ -20,6 +20,7 @@ const BlogContent = ({ blogId }: Props) => {
 		content: string
 		created_at: string
 	} | null>()
+	const [loading, setLoading] = useState(true)
 
 	const supabase = createBrowserClient<Database>(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -34,14 +35,19 @@ const BlogContent = ({ blogId }: Props) => {
 			.single()
 
 		setBlog(data)
+		setLoading(false)
 	}
 
-    useEffect(() => {
+	useEffect(() => {
         readBlogContent()
         // eslint-disable-next-line
     }, [])
 
-	return <MarkdownPreview content={blog?.content || ''} />
+	if (loading) {
+		return <Loader />
+	}
+
+	return <MarkdownPreview className='sm:px-10' content={blog?.content || ''} />
 }
 
 export default BlogContent
