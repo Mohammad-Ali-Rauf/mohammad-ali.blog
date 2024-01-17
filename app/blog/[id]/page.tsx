@@ -8,7 +8,7 @@ interface Props {
 
 const Page = async ({ params: { id } }: Props) => {
 	const { data: blog } = await fetch(
-		`https://mohammad-ali-blog.vercel.app/api/blog/${id}`
+		`https://mohammad-ali-blog.vercel.app/api/blog?id=${id}`
 	).then((res) => res.json())
 
 	return (
