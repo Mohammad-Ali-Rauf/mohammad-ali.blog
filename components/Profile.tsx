@@ -14,6 +14,7 @@ import {
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import { Button } from './ui/button'
+import Billing from './stripe/Billing'
 
 // Icons
 import { DashboardIcon, LockOpen1Icon } from '@radix-ui/react-icons'
@@ -33,11 +34,12 @@ const Profile = () => {
 	const setUser = useUser((state) => state.setUser)
 	const { push } = useRouter()
 
-	const isAdmin = user?.user_metadata?.role === 'admin'
+	const isAdmin = user?.role === 'admin'
+	const isSub = user?.subscription_status;
 
 	const handleLogout = async () => {
 		supabase.auth.signOut()
-		setUser(undefined)
+		setUser(null)
 		push('/')
 	}
 
@@ -46,8 +48,8 @@ const Profile = () => {
 			<PopoverTrigger>
 				<Image
 					loading='lazy'
-					src={user?.user_metadata?.avatar_url}
-					alt={user?.user_metadata?.user_name}
+					src={user?.image_url || ''}
+					alt={user?.display_name || ''}
 					width={50}
 					height={50}
 					className='rounded-full ring-2 ring-blue-500'
@@ -55,8 +57,8 @@ const Profile = () => {
 			</PopoverTrigger>
 			<PopoverContent className='p-2 space-y-3 divide-y'>
 				<div className='px-4 text-sm'>
-					<p>{user?.user_metadata?.user_name}</p>
-					<p className='text-gray-500'>{user?.user_metadata?.email}</p>
+					<p>{user?.display_name}</p>
+					<p className='text-gray-500'>{user?.email}</p>
 				</div>
 				{isAdmin && (
 					<Link href='/dashboard' className='block'>
@@ -70,6 +72,7 @@ const Profile = () => {
 						</Button>
 					</Link>
 				)}
+				{isSub && <Billing />}
 				<Button
 					aria-label='logout'
 					onClick={handleLogout}
