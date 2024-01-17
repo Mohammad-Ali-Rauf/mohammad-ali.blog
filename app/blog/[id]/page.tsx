@@ -30,7 +30,7 @@ const Page = async ({ params: { id } }: Props) => {
 					{new Date(blog?.created_at || '').toDateString()}
 				</p>
 			</div>
-			<div>
+			<div className='w-full h-96 relative'>
 				<Image
 					priority
 					src={blog?.image_url || '/'}
