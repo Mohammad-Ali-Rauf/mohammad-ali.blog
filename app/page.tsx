@@ -3,12 +3,20 @@ import React from 'react'
 // Components
 import { Button } from '@/components/ui/button'
 
-type Props = {}
+// Functions/Actions
+import { readBlog } from '@/lib/actions/blog'
 
-const Home = (props: Props) => {
-  return (
-    <div><Button aria-label='hello'>Hello</Button></div>
-  )
+interface Props {}
+
+const Home = async (props: Props) => {
+	const { data: blogs } = await readBlog()
+
+	return (
+		<div>
+			{JSON.stringify(blogs)}
+			<Button aria-label='hello'>Hello</Button>
+		</div>
+	)
 }
 
 export default Home
