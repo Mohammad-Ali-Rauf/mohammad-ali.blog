@@ -20,6 +20,10 @@ import { DashboardIcon, LockOpen1Icon } from '@radix-ui/react-icons'
 
 // Supabase
 import { createBrowserClient } from '@supabase/ssr'
+const supabase = createBrowserClient(
+	process.env.NEXT_PUBLIC_SUPABASE_URL!,
+	process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+)
 
 // Routing
 import { useRouter } from 'next/navigation'
@@ -30,24 +34,6 @@ const Profile = () => {
 	const { push } = useRouter()
 
 	const isAdmin = user?.user_metadata?.role === 'admin'
-
-	const supabase = createBrowserClient(
-		process.env.NEXT_PUBLIC_SUPABASE_URL!,
-		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-	)
-
-	supabase
-		.channel('custom-all-channel')
-		.on(
-			'postgres_changes',
-			{ event: 'UPDATE', schema: 'public', table: 'users' },
-			(payload) => {
-				console.log('Change received!', payload)
-			}
-		)
-		.subscribe()
-
-	useEffect(() => {}, [supabase])
 
 	const handleLogout = async () => {
 		supabase.auth.signOut()
