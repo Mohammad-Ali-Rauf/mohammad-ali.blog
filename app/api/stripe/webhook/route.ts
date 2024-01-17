@@ -31,12 +31,21 @@ export async function POST(req: NextRequest, res: Response) {
 			const customer = event.data.object
 			const subscription = await stripe.subscriptions.list({
 				customer: customer.id,
-			});
-            if (subscription.data.length) {
-                const sub = subscription.data[0]
+			})
+			if (subscription.data.length) {
+				const sub = subscription.data[0]
 
-                onSuccessSubscription()
-            }
+				const { error } = await onSuccessSubscription(
+					sub.status === 'active',
+					sub.id,
+					customer.id,
+					customer.email!
+				)
+
+                if (error?.message) {
+                    return NextResponse.json(`Error: ${error.message}`, { status: 400 })
+                }
+			}
 			break
 		default:
 			console.log(`Unhandled event type ${event.type}`)
@@ -45,6 +54,20 @@ export async function POST(req: NextRequest, res: Response) {
 	return NextResponse.json({})
 }
 
-const onSuccessSubscription = async () => {
-    const supabase = await createSupabaseAdmin()
+const onSuccessSubscription = async (
+	subscription_status: boolean,
+	stripe_subscription_id: string,
+	stripe_customer_id: string,
+	email: string
+) => {
+	const supabaseAdmin = await createSupabaseAdmin()
+
+	return await supabaseAdmin
+		.from('users')
+		.update({
+			subscription_status,
+			stripe_subscription_id,
+			stripe_customer_id,
+		})
+		.eq('email', email)
 }
