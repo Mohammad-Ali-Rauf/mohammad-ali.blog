@@ -37,7 +37,7 @@ const Page = async ({ params: { id } }: Props) => {
 					alt='cover'
 					fill
 					className='object-cover object-center rounded-md border'
-					sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+					sizes='(max-width: 768px) 100vw, (max-width: 1200px): 50vw, 33vw'
 				/>
 			</div>
 			<BlogContent blogId={blog?.id} />
