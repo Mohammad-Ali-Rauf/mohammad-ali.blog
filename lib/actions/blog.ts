@@ -86,6 +86,7 @@ export async function updateBlogByDashboard(
 	const result = await supabase.from('blog').update(data).eq('id', blogId)
 
 	revalidatePath(DASHBOARD)
+	revalidatePath(`/blog/${blogId}`)
 
 	return JSON.stringify(result)
 }
@@ -106,6 +107,7 @@ export async function updateBlogByForm(
 			.eq('blog_id', blogId)
 
 		revalidatePath(DASHBOARD)
+		revalidatePath(`/blog/${blogId}`)
 
 		return JSON.stringify(result)
 	}
