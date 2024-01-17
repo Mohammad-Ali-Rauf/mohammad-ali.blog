@@ -24,7 +24,9 @@ import { createBrowserClient } from '@supabase/ssr'
 // Routing
 import { useRouter } from 'next/navigation'
 
-export const isAdmin = (user: any) => user?.role === 'admin' ? true : false
+export const isAdmin = (user: any) => {
+	return user?.role === 'admin' ? true : false
+}
 
 const Profile = () => {
 	const user = useUser((state) => state.user)
