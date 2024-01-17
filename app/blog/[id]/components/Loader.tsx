@@ -9,11 +9,6 @@ export default function Loader() {
 				<h1 className=" h-10 w-full bg-gray-500 rounded-md"></h1>
 				<h1 className=" h-10 w-full bg-gray-500 rounded-md"></h1>
 				<h1 className=" h-10 w-full bg-gray-500 rounded-md"></h1>
-				<h1 className=" h-10 w-full bg-gray-500 rounded-md"></h1>
-				<h1 className=" h-10 w-full bg-gray-500 rounded-md"></h1>
-				<h1 className=" h-10 w-full bg-gray-500 rounded-md"></h1>
-				<h1 className=" h-10 w-full bg-gray-500 rounded-md"></h1>
-				<h1 className=" h-10 w-full bg-gray-500 rounded-md"></h1>
 			</div>
 			<div className=" border h-96 rounded-md bg-graident-dark "></div>
 		</div>
