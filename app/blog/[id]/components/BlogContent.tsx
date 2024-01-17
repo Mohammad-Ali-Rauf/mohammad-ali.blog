@@ -9,6 +9,7 @@ import { Database } from '@/lib/types/supabase'
 // Components
 import MarkdownPreview from '@/components/markdown/MarkdownPreview'
 import Loader from './Loader'
+import Checkout from '@/components/stripe/Checkout'
 
 interface Props {
 	blogId: string
@@ -45,6 +46,10 @@ const BlogContent = ({ blogId }: Props) => {
 
 	if (loading) {
 		return <Loader />
+	}
+
+	if (!blog?.content) {
+		return <Checkout />
 	}
 
 	return <MarkdownPreview className='sm:px-10' content={blog?.content || ''} />
