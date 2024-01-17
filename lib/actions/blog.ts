@@ -56,6 +56,13 @@ export async function readBlog() {
 		.order('created_at', { ascending: true })
 }
 
+export async function readBlogForAdmin() {
+	return supabase
+		.from('blog')
+		.select('*')
+		.order('created_at', { ascending: true })
+}
+
 export async function readBlogContentById(blogId: string) {
 	return supabase
 		.from('blog')

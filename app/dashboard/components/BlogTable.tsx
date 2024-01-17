@@ -11,7 +11,7 @@ import SwitchForm from './SwitchForm'
 import { EyeOpenIcon, Pencil1Icon, TrashIcon } from '@radix-ui/react-icons'
 
 // Functions/Actions - Database CRUD not these actions
-import { readBlog, updateBlogByDashboard } from '@/lib/actions/blog'
+import { readBlogForAdmin, updateBlogByDashboard } from '@/lib/actions/blog'
 
 // Types
 import { BlogFormSchemaType } from '../schemas'
@@ -39,7 +39,7 @@ const Actions = ({ id }: ActionsProps) => {
 }
 
 const BlogTable = async () => {
-	const { data: blogs } = await readBlog()
+	const { data: blogs } = await readBlogForAdmin()
 
 	return (
 		<ScrollArea>
