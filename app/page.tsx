@@ -29,10 +29,11 @@ const Home = async (props: Props) => {
 								sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 							/>
 						</div>
-						<div>
+						<div className='space-y-2'>
 							<p className='text-sm text-gray-300'>
 								{new Date(blog.created_at).toDateString()}
 							</p>
+							<h1 className='text-xl font-bold'>{blog.title}</h1>
 						</div>
 					</Link>
 				)
