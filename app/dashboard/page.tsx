@@ -7,7 +7,6 @@ import { PlusIcon } from '@radix-ui/react-icons'
 // Components
 import { Button } from '@/components/ui/button'
 import BlogTable from './components/BlogTable'
-import { Skeleton } from '@/components/ui/skeleton'
 
 type Props = {}
 
