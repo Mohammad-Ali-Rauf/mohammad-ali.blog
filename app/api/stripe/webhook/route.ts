@@ -42,9 +42,18 @@ export async function POST(req: NextRequest, res: Response) {
 					customer.email!
 				)
 
-                if (error?.message) {
-                    return NextResponse.json(`Error: ${error.message}`, { status: 400 })
-                }
+				if (error?.message) {
+					return NextResponse.json(`Error while subscribing: ${error.message}`, { status: 400 })
+				}
+			}
+			break
+		case 'customer.subscription.deleted':
+			const deletedSub = event.data.object
+
+			const { error } = await onCancelSubscription(false, deletedSub.id)
+
+			if (error?.message) {
+				return NextResponse.json(`Subscription Cancelling Error: ${error.message}`, { status: 400 })
 			}
 			break
 		default:
@@ -52,6 +61,22 @@ export async function POST(req: NextRequest, res: Response) {
 	}
 
 	return NextResponse.json({})
+}
+
+const onCancelSubscription = async (
+	subscription_status: boolean,
+	sub_id: string
+) => {
+	const supabaseAdmin = await createSupabaseAdmin()
+
+	return await supabaseAdmin
+		.from('users')
+		.update({
+			subscription_status,
+			stripe_subscription_id: null,
+			stripe_customer_id: null,
+		})
+		.eq('stripe_subscription_id', sub_id)
 }
 
 const onSuccessSubscription = async (
