@@ -31,7 +31,7 @@ const Checkout = (props: Props) => {
 		e.preventDefault()
 		startTransition(async () => {
 			const data = JSON.parse(
-				await checkout(user?.user_metadata?.email!, location.origin + path)
+				await checkout(user?.email!, location.origin + path)
 			)
 			const stripe = await loadStripe(
 				process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!

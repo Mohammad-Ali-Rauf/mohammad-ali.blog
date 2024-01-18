@@ -13,6 +13,46 @@ interface Props {
 	}
 }
 
+export async function generateStaticParams() {
+	const { data: blog } = await fetch(
+		`https://mohammad-ali-blog.vercel.app/api/blog?id=*`
+	).then((res) => res.json())
+	return blog
+}
+
+export async function generateMetadata({ params: { id } }: Props) {
+	const { data: blog } = (await fetch(
+		`https://mohammad-ali-blog.vercel.app/api/blog?id=${id}`
+	).then((res) => res.json())) as { data: IBlog }
+
+	return {
+		title: blog?.title,
+		authors: {
+			name: 'Mohammad Ali',
+		},
+		openGraph: {
+			title: blog?.title,
+			url: `https://mohammad-ali-blog.vercel.app/blog/${id}`,
+			siteName: 'ScribeQuantum',
+			images: blog?.image_url,
+			type: 'website',
+		},
+		keywords: [
+			'ScribeQuantum',
+			'Blog',
+			'Mohammad Ali',
+			'Mohammad Ali Blog',
+			'MERN Stack Developer Blog',
+			'MERN Stack Developer',
+			'Next.js Developer',
+			'Next.js Developer Blog',
+			'Scribe Quantum',
+			'ScribeQuantum Blog',
+			'Scribe Quantum Blog',
+		],
+	}
+}
+
 const Page = async ({ params: { id } }: Props) => {
 	const { data: blog } = (await fetch(
 		`https://mohammad-ali-blog.vercel.app/api/blog?id=${id}`
