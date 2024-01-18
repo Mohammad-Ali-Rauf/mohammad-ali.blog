@@ -51,7 +51,7 @@ const Checkout = (props: Props) => {
 	return (
 		<form
 			onSubmit={handleCheckout}
-			className={cn('h-96 w-full flex items-center justify-center', {
+			className={cn('h-96 p-3 w-full flex items-center justify-center', {
 				'animate-pulse': isPending,
 			})}
 		>
@@ -59,7 +59,7 @@ const Checkout = (props: Props) => {
 				variant='ghost'
 				className='flex flex-col p-10 gap-5 ring-2 ring-blue-500'
 			>
-				<span className='flex items-center p-3 gap-2 text-2xl font-bold ring-blue-500'>
+				<span className='flex items-center gap-2 text-2xl font-bold ring-blue-500'>
 					<LightningBoltIcon
 						className={cn(
 							'w-5 h-5',
