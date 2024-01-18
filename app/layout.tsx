@@ -18,7 +18,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-	title: 'Your Thoughts, Your Words | ScribeQuantum',
+	title: 'My Thoughts, My Journey | ScribeQuantum',
 	description: 'Created, designed, and deployed by Mohammad Ali',
 }
 
