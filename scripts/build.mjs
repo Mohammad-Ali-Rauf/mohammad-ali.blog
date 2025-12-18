@@ -5,9 +5,9 @@ import { createHash } from 'crypto';
 import { marked } from 'marked';
 
 export async function build() {
-  const TEMPLATES_DIR = './templates';
-  const POSTS_DIR = './posts';
-  const OUT_POSTS_DIR = './public/p';
+  const TEMPLATES_DIR = '../templates';
+  const POSTS_DIR = '../posts';
+  const OUT_POSTS_DIR = '../public/p';
 
   await fs.mkdir(OUT_POSTS_DIR, { recursive: true });
 
