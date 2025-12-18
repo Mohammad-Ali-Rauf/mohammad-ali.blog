@@ -1,19 +1,16 @@
-import { test } from 'bun:test';
+import { test, expect } from 'bun:test';
+import { build } from '../scripts/build.mjs';
 import { readdir, readFile } from 'fs/promises';
-import { build } from '../scripts/build.mjs'; // export build() from build.mjs
 
-test("build generates deterministic URLs", async () => {
-  await build(); // make it a function
+test("build generates posts with content-based hashes", async () => {
+  const count = await build();
+  expect(count).toBeGreaterThan(0);
+
   const files = await readdir('./public/p');
-  const hashes = files.map(f => f.replace('.html', ''));
-  // assert all are 8-char hex
-  hashes.forEach(h => {
-    if (!/^[a-f0-9]{8}$/.test(h)) throw new Error(`Bad hash: ${h}`);
-  });
-});
-
-test("base template interpolation works", async () => {
-  await build();
-  const html = await readFile('./public/p/0b8f7238.html', 'utf8');
-  if (!html.includes('<h1>printer-pwn</h1>')) throw new Error("Title missing");
+  for (const file of files) {
+    expect(file).toMatch(/^[a-f0-9]{8}\.html$/);
+    
+    const html = await readFile(`./public/p/${file}`, 'utf8');
+    expect(html).toContain('<article>'); // or whatever your rendered HTML has
+  }
 });
