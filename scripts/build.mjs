@@ -3,30 +3,34 @@
 import fs from 'fs/promises';
 import { createHash } from 'crypto';
 import { marked } from 'marked';
+import { join } from 'path';
+
+const __dirname = import.meta.dirname;
+
+const TEMPLATES_DIR = join(__dirname, '..', 'templates');
+const POSTS_DIR = join(__dirname, '..', 'posts');
+const OUT_POSTS_DIR = join(__dirname, '..', 'public', 'p');
 
 export async function build() {
-  const TEMPLATES_DIR = '../templates';
-  const POSTS_DIR = '../posts';
-  const OUT_POSTS_DIR = '../public/p';
-
   await fs.mkdir(OUT_POSTS_DIR, { recursive: true });
 
-  const baseTemplate = await fs.readFile(`${TEMPLATES_DIR}/base.html`, 'utf8');
+  const baseTemplatePath = join(TEMPLATES_DIR, 'base.html');
+  const baseTemplate = await fs.readFile(baseTemplatePath, 'utf8');
   if (!baseTemplate.includes('{{content}}')) {
-    throw new Error("FATAL: base.html missing {{content}}");
+    throw new Error(`FATAL: ${baseTemplatePath} missing {{content}}`);
   }
 
   const files = await fs.readdir(POSTS_DIR);
   for (const file of files) {
     if (!file.endsWith('.md')) continue;
 
-    const mdPath = `${POSTS_DIR}/${file}`;
+    const mdPath = join(POSTS_DIR, file);
     let content = await fs.readFile(mdPath, 'utf8');
-    content = content.replace(/^\uFEFF/, '');
+    content = content.replace(/^\uFEFF/, ''); // strip BOM
 
     const htmlContent = marked.parse(content);
     const hash = createHash('sha1').update(content).digest('hex').slice(0, 8);
-    const outPath = `${OUT_POSTS_DIR}/${hash}.html`;
+    const outPath = join(OUT_POSTS_DIR, `${hash}.html`);
 
     const finalHtml = baseTemplate
       .replace('{{content}}', htmlContent)
@@ -38,7 +42,6 @@ export async function build() {
   return files.filter(f => f.endsWith('.md')).length;
 }
 
-// Allow direct execution
 if (import.meta.main) {
   const count = await build();
   console.log(`✅ Built ${count} posts`);
