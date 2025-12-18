@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+Allow: /
+Sitemap: https://mohammad-ali.blog.github.io/sitemap.xml
